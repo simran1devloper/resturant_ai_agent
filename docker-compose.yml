@@ -2,9 +2,7 @@ version: '3.8'
 
 services:
   backend:
-    build:
-      context: ./Backend
-      dockerfile: Dockerfile
+    image: food-ordering-backend:latest
     container_name: food-ordering-backend
     ports:
       - "8005:8005"
@@ -25,12 +23,10 @@ services:
       start_period: 40s
 
   frontend:
-    build:
-      context: ./Frontend
-      dockerfile: Dockerfile
+    image: food-ordering-frontend:latest
     container_name: food-ordering-frontend
     ports:
-      - "3000:80"
+      - "80:80"
     depends_on:
       backend:
         condition: service_healthy

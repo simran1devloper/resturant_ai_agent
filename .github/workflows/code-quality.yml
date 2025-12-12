@@ -8,7 +8,7 @@ on:
 
 jobs:
   lint-backend:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     
     steps:
       - name: Checkout code
@@ -39,7 +39,7 @@ jobs:
         continue-on-error: true
 
   lint-frontend:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     
     steps:
       - name: Checkout code
@@ -68,7 +68,7 @@ jobs:
           npx prettier --check "src/**/*.{js,jsx,ts,tsx,css,md}"
 
   security-scan:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     permissions:
       contents: read
       security-events: write

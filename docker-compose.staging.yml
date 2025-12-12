@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  backend:
+    image: food-ordering-backend:latest
+    container_name: food-ordering-backend-staging
+    ports:
+      - "8006:8005"
+    environment:
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
+      - MLFLOW_TRACKING_URI=${MLFLOW_TRACKING_URI:-http://mlflow:5000}
+      - ENVIRONMENT=staging
+    volumes:
+      - ./Backend/Rag/vectorstore:/app/Backend/Rag/vectorstore
+      - ./Backend/Rag/menu.json:/app/Backend/Rag/menu.json
+    networks:
+      - app-network-staging
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:8005/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  frontend:
+    image: food-ordering-frontend:latest
+    container_name: food-ordering-frontend-staging
+    ports:
+      - "8080:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - app-network-staging
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/health"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
+
+networks:
+  app-network-staging:
+    driver: bridge
