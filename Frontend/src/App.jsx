@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Send, ShoppingBag, Info, Loader2 } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence } from 'framer-motion';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
@@ -40,7 +40,7 @@ function App() {
     try {
       const res = await axios.get(`${API_BASE}/rag/query`, { params: { q: userMsg } });
       setMessages(prev => [...prev, { role: 'assistant', content: res.data.content }]);
-    } catch (err) {
+    } catch {
       setMessages(prev => [...prev, { role: 'assistant', content: "Sorry, I'm having trouble connecting right now." }]);
     } finally {
       setIsLoading(false);
@@ -155,8 +155,8 @@ function App() {
                   <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                     <div
                       className={`max-w-[80%] p-4 rounded-2xl text-sm leading-relaxed ${msg.role === 'user'
-                          ? 'bg-indigo-600 text-white rounded-br-none shadow-lg shadow-indigo-600/20'
-                          : 'bg-white/10 text-slate-200 rounded-bl-none backdrop-blur-sm markdown-content'
+                        ? 'bg-indigo-600 text-white rounded-br-none shadow-lg shadow-indigo-600/20'
+                        : 'bg-white/10 text-slate-200 rounded-bl-none backdrop-blur-sm markdown-content'
                         }`}
                     >
                       {msg.role === 'user' ? (
@@ -165,49 +165,49 @@ function App() {
                         <ReactMarkdown
                           remarkPlugins={[remarkGfm]}
                           components={{
-                            table: ({ node, ...props }) => (
+                            table: ({ ...props }) => (
                               <table className="w-full border-collapse border border-white/20 my-2 rounded" {...props} />
                             ),
-                            thead: ({ node, ...props }) => (
+                            thead: ({ ...props }) => (
                               <thead className="bg-white/5" {...props} />
                             ),
-                            th: ({ node, ...props }) => (
+                            th: ({ ...props }) => (
                               <th className="border border-white/20 px-3 py-2 text-left font-semibold text-white" {...props} />
                             ),
-                            td: ({ node, ...props }) => (
+                            td: ({ ...props }) => (
                               <td className="border border-white/20 px-3 py-2" {...props} />
                             ),
-                            h1: ({ node, ...props }) => (
+                            h1: ({ ...props }) => (
                               <h1 className="text-xl font-bold mt-4 mb-2 text-white" {...props} />
                             ),
-                            h2: ({ node, ...props }) => (
+                            h2: ({ ...props }) => (
                               <h2 className="text-lg font-bold mt-3 mb-2 text-white" {...props} />
                             ),
-                            h3: ({ node, ...props }) => (
+                            h3: ({ ...props }) => (
                               <h3 className="text-base font-semibold mt-2 mb-1 text-white" {...props} />
                             ),
-                            code: ({ node, inline, ...props }) =>
+                            code: ({ inline, ...props }) =>
                               inline ? (
                                 <code className="bg-indigo-500/20 text-indigo-300 px-1.5 py-0.5 rounded text-xs" {...props} />
                               ) : (
                                 <code className="block bg-slate-900/50 p-2 rounded mt-1 mb-1 text-xs" {...props} />
                               ),
-                            ul: ({ node, ...props }) => (
+                            ul: ({ ...props }) => (
                               <ul className="list-disc list-inside my-2 space-y-1" {...props} />
                             ),
-                            ol: ({ node, ...props }) => (
+                            ol: ({ ...props }) => (
                               <ol className="list-decimal list-inside my-2 space-y-1" {...props} />
                             ),
-                            p: ({ node, ...props }) => (
+                            p: ({ ...props }) => (
                               <p className="my-1.5 leading-relaxed" {...props} />
                             ),
-                            strong: ({ node, ...props }) => (
+                            strong: ({ ...props }) => (
                               <strong className="font-semibold text-white" {...props} />
                             ),
-                            em: ({ node, ...props }) => (
+                            em: ({ ...props }) => (
                               <em className="italic" {...props} />
                             ),
-                            blockquote: ({ node, ...props }) => (
+                            blockquote: ({ ...props }) => (
                               <blockquote className="border-l-2 border-indigo-500/50 pl-3 my-2 italic text-slate-300" {...props} />
                             ),
                           }}

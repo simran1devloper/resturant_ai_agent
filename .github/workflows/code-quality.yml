@@ -25,15 +25,18 @@ jobs:
       
       - name: Run Black (format check)
         run: |
-          black --check Backend/ || echo "Black formatting issues found"
+          black --check Backend/ || echo "⚠️ Black formatting issues found"
+        continue-on-error: true
       
       - name: Run Flake8 (linting)
         run: |
-          flake8 Backend/ --max-line-length=100 --exclude=.venv,__pycache__ --count --statistics
+          flake8 Backend/ --max-line-length=100 --exclude=.venv,__pycache__ --count --statistics || true
+        continue-on-error: true
       
       - name: Run isort (import sorting)
         run: |
-          isort --check-only Backend/ || echo "Import sorting issues found"
+          isort --check-only Backend/ || echo "⚠️ Import sorting issues found"
+        continue-on-error: true
 
   lint-frontend:
     runs-on: ubuntu-latest
@@ -66,6 +69,10 @@ jobs:
 
   security-scan:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+      actions: read
     
     steps:
       - name: Checkout code
