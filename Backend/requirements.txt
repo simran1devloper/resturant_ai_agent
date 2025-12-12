@@ -1,0 +1,36 @@
+fastapi
+uvicorn[standard]
+pydantic
+python-dotenv
+
+# Agno AI Agent
+agno
+
+# Vectorstore / Embeddings
+chromadb
+faiss-cpu
+sentence-transformers
+
+# Version constraints for compatibility
+huggingface-hub<1.0
+
+# OpenAI / LLM APIs
+openai
+
+# Database
+sqlite-utils
+
+# Utilities
+requests
+numpy
+pandas
+tqdm
+
+# Logging
+loguru
+
+# JSON & Data Handling
+orjson
+
+# For async operations
+aiofiles

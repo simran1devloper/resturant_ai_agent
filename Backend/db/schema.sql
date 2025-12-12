@@ -1,0 +1,18 @@
+
+-- Menu table
+CREATE TABLE IF NOT EXISTS menu (
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+name TEXT NOT NULL,
+price REAL NOT NULL,
+description TEXT
+);
+
+
+-- Orders table
+CREATE TABLE IF NOT EXISTS orders (
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+item_id INTEGER NOT NULL,
+quantity INTEGER NOT NULL,
+status TEXT DEFAULT 'pending',
+FOREIGN KEY (item_id) REFERENCES menu(id)
+);

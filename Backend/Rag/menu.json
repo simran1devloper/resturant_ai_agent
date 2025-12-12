@@ -1,0 +1,30 @@
+[
+  {
+    "name": "Margherita Pizza",
+    "price": 299,
+    "category": "Pizza",
+    "tags": ["vegetarian"],
+    "description": "Classic pizza topped with mozzarella cheese and fresh basil."
+  },
+  {
+    "name": "Paneer Tikka",
+    "price": 250,
+    "category": "Starter",
+    "tags": ["vegetarian", "spicy"],
+    "description": "Grilled paneer cubes marinated in spices."
+  },
+  {
+    "name": "Veg Biryani",
+    "price": 220,
+    "category": "Rice",
+    "tags": ["vegetarian", "spicy"],
+    "description": "Fragrant basmati rice cooked with vegetables and biryani spices."
+  },
+  {
+    "name": "Chicken Alfredo Pasta",
+    "price": 420,
+    "category": "Pasta",
+    "tags": ["non-veg"],
+    "description": "Creamy alfredo pasta served with grilled chicken strips."
+  }
+]

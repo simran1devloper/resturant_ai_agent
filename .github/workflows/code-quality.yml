@@ -1,0 +1,86 @@
+name: Code Quality
+
+on:
+  push:
+    branches: [main, develop, feature/**]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  lint-backend:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      
+      - name: Install linters
+        run: |
+          pip install black flake8 isort
+      
+      - name: Run Black (format check)
+        run: |
+          black --check Backend/ || echo "Black formatting issues found"
+      
+      - name: Run Flake8 (linting)
+        run: |
+          flake8 Backend/ --max-line-length=100 --exclude=.venv,__pycache__ --count --statistics
+      
+      - name: Run isort (import sorting)
+        run: |
+          isort --check-only Backend/ || echo "Import sorting issues found"
+
+  lint-frontend:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: Frontend/package-lock.json
+      
+      - name: Install dependencies
+        run: |
+          cd Frontend
+          npm ci
+      
+      - name: Run ESLint
+        run: |
+          cd Frontend
+          npm run lint
+      
+      - name: Check formatting (Prettier)
+        run: |
+          cd Frontend
+          npx prettier --check "src/**/*.{js,jsx,ts,tsx,css,md}"
+
+  security-scan:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+      
+      - name: Upload Trivy results to GitHub Security
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: 'trivy-results.sarif'
